@@ -28,7 +28,7 @@ Você pode fazer todas as chamadas aos endpoints manualmente, mas essa bibliotec
 ![Configurações adicionais](https://cloud.githubusercontent.com/assets/12012898/9565194/56936778-4e97-11e5-8504-2aaa3e921fea.png)
 1. Clique em Exibir pontos de entrada e copie a primeira URL.
 ![Pontos de Entrada](https://cloud.githubusercontent.com/assets/12012898/9565207/bdc359b2-4e97-11e5-8a48-78ade248fa84.png)
-1. Coloque os valores obtidos nas etapas anteriores no código que está em **Controllers/HomeController**
+1. Coloque os valores obtidos nas etapas anteriores no código que está em **Controllers/HomeController** da solution **WebCast.AutenticacaoSharePoint**
 ```C#
 		/// Url copiada do pontos de entrada, somente até o guid após login.microsoftonline.com
 		/// exemplo: https://login.microsoftonline.com/B1EC3377-86A0-43EE-8305-FE1B1B3AE270
@@ -47,4 +47,66 @@ Você pode fazer todas as chamadas aos endpoints manualmente, mas essa bibliotec
 		string redirectUrl = "http://localhost:58689/Home/Token";
 ```
 
+
+## SharePoint Add-ins
+Nesse modelo, utilizamos a autenticação **Low-trust** do SharePoint Online para autorizar os acessos aos recursos do tenant.
+Para esse exemplo, utilizarei uma Console Application **WebCast.AutenticacaoSharePoint.Addin**.
+
+Nesse projeto, utilizaremos o Nuget [App for SharePoint Web Toolkit](https://www.nuget.org/packages/AppForSharePointWebToolkit/)
+
+### Preparando o ambiente
+
+Abrir a URL **"_layouts/AppRegNew.aspx"** no seu SharePoint 
+
+Clicar no botão gerar do ID do Cliente e do Segredo do Cliente. Digitar o Título da App preencher um domínio para a APP (pode ser localhost) e uma URL de redirecionamento (pode ser a URL do seu SharePoint)
+
+![Criar um App](http://rodrigoromano.net/wp-content/uploads/2015/03/4.jpg)
+
+### Alterar o arquivo App.Config
+
+![App.Config](http://rodrigoromano.net/wp-content/uploads/2015/03/5.jpg)
+
+### Dar permissões ao App
+
+Abrir a URL **“_layouts/AppInv.aspx”** no seu SharePoint e digite o ClientID criado na etapa 2.
+
+![Permissões](http://rodrigoromano.net/wp-content/uploads/2015/03/6.jpg)
+
+No campo XML de Solicitação de Permissão do Aplicativo cole o XML abaixo:
+
+```XML
+<AppPermissionRequests AllowAppOnlyPolicy="true">
+    <AppPermissionRequest Scope="http://sharepoint/content/sitecollection" Right="Read" />
+</AppPermissionRequests>
+```
+
+Com esse XML, você dará permissão em todo o Site Collection de leitura. Altere se for necessário.
+
+### 5 - Alterar o código
+
+Alterar a Url e incluir a funcionalidade desejada.
+
+```C#
+string siteUrl = "http://localhost";
+Uri uri = new Uri(siteUrl);
+
+string realm = TokenHelper.GetRealmFromTargetUrl(uri);
+
+//Get the access token for the URL.  
+//   Requires this app to be registered with the tenant
+string accessToken = TokenHelper.GetAppOnlyAccessToken(
+    TokenHelper.SharePointPrincipal,
+    uri.Authority, realm).AccessToken;
+
+using (var ctx = TokenHelper.GetClientContextWithAccessToken(uri.ToString(), accessToken))
+{
+    /// codigo vai aqui
+    ctx.Load(ctx.Web);
+    var webTitle = ctx.Web.Title;
+
+    ctx.ExecuteQuery();
+
+    Console.Write(webTitle);
+}
+```
 
