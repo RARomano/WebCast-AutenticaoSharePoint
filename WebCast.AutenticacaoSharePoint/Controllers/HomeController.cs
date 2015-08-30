@@ -10,11 +10,21 @@ namespace WebCast.AutenticacaoSharePoint.Controllers
 {
 	public class HomeController : Controller
 	{
+		/// Url copiada do pontos de entrada, somente até o guid após login.microsoftonline.com
+		/// exemplo: https://login.microsoftonline.com/B1EC3377-86A0-43EE-8305-FE1B1B3AE270
 		string authority = "";
+
+		/// Url do Tenant que deseja acessar
 		string resource = "";
+
+		/// Client ID
 		string clientId = "";
+
+		/// Client Secret
 		string clientSecret = "";
-		string redirectUrl = "";
+
+		/// Url de Redirect
+		string redirectUrl = "http://localhost:58689/Home/Token";
 
 		public ActionResult Index()
 		{
