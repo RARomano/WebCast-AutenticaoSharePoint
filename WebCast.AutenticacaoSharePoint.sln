@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCast.AutenticacaoSharePoint", "WebCast.AutenticacaoSharePoint\WebCast.AutenticacaoSharePoint.csproj", "{BAE6BDA7-A2F5-40AF-B00E-78427D9893E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCast.AutenticacaoSharePoint.Addin", "WebCast.AutenticacaoSharePoint.Addin\WebCast.AutenticacaoSharePoint.Addin.csproj", "{B3CDEE1E-D249-48BC-831B-641184611464}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BAE6BDA7-A2F5-40AF-B00E-78427D9893E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAE6BDA7-A2F5-40AF-B00E-78427D9893E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAE6BDA7-A2F5-40AF-B00E-78427D9893E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CDEE1E-D249-48BC-831B-641184611464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CDEE1E-D249-48BC-831B-641184611464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CDEE1E-D249-48BC-831B-641184611464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CDEE1E-D249-48BC-831B-641184611464}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
